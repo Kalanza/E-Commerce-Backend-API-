@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "ecomapi",
-    "users"
+    "users",
+    "core"
 ]
 
 # Custom User Model
