@@ -23,7 +23,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
 
         # 4.Save to the database
-        user.Save()
+        user.save()
         return user
     
     def create_superuser(self, email, password, **extra_fields):

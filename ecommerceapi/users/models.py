@@ -15,6 +15,8 @@ class CustomUser(TimestampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    phone_number = models.CharField(_('phone number'), max_length=20, blank=True)
+    is_verified = models.BooleanField(_('email verified'), default=False)
 
     #Required fields for admin management
     is_staff = models.BooleanField(default=False)
