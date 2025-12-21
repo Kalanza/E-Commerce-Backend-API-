@@ -40,8 +40,35 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "ecomapi",
     "users",
-    "core"
+    "core",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "django_filters",
+    "products"
 ]
+
+#REST Framework Configuration
+REST_FRAMEWORK  = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',     
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # Lock down everything by default      
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ),
+}
+
+from datetime import timedelta
+
+# JWT Configuration
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # Token expires in 1 hr
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # User must login again after 1 day
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.CustomUser'
