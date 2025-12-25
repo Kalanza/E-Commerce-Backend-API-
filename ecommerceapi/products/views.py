@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
+from .filters import ProductFilter
 
 class CategoryListCreateView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -25,7 +26,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
     queryset = Product.objects.filter(is_active=True)
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['category', 'price']
+    filterset_class = ProductFilter
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at', 'name']
     ordering = ['-created_at']
