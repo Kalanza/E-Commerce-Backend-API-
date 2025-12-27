@@ -113,5 +113,11 @@ class OrderItem(TimestampedModel):
     def __str__(self):
         return f"{self.quantity}x {self.product.name} in Order #{self.order.id}"
 
+    def save(self, *args, **kwargs):
+        # Auto-populate price from product if not set
+        if not self.price and self.product:
+            self.price = self.product.price
+        super().save(*args, **kwargs)
+
     def get_subtotal(self):
         return self.quantity * self.price
