@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import RegisterView
-from orders.views import MpesaCheckoutView
+from orders.views import MpesaCheckoutView, MpesaCallbackView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
@@ -68,7 +68,8 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name='token_obtain_pair'), #This is "Login"
     path("api/token/refresh/", TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/', RegisterView.as_view(), name='register'),
-    path('api/pay/', MpesaCheckoutView.as_view(), name = 'mpesa_checkout'),
+    path('api/pay/', MpesaCheckoutView.as_view(), name='mpesa_checkout'),
+    path('api/mpesa/callback/', MpesaCallbackView.as_view(), name='mpesa_callback'),
     path('api/', include('products.urls')),
     # API Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

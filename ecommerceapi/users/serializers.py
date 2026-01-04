@@ -49,3 +49,4 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             phone_number=validated_data.get('phone_number', '')
         )
         return user
+    
