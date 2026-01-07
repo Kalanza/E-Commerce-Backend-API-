@@ -51,7 +51,7 @@ class MpesaClient:
             "PartyA": phone_number, # The phone sending money
             "PartyB": self.shortcode, # The paybill receiving money
             "PhoneNumber": phone_number,
-            "CallBackURL": "https://mydomain.com/api/payments/callback", #  We will fix this later
+            "CallBackURL": "https://ellison-ophthalmoscopic-viceregally.ngrok-free.dev/api/mpesa/callback/", #  We will fix this later
             "AccountReference": account_reference,
             "TransactionDesc": "Payment for Order"
 

@@ -76,6 +76,23 @@ class Order(TimestampedModel):
     total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, default=0)
     shipping_address = models.TextField(_('shipping address'))
     notes = models.TextField(_('order notes'), blank=True)
+    
+    # M-Pesa Payment Tracking Fields
+    checkout_request_id = models.CharField(
+        _('M-Pesa checkout request ID'),
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text='CheckoutRequestID from M-Pesa STK Push'
+    )
+    mpesa_receipt_number = models.CharField(
+        _('M-Pesa receipt number'),
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text='M-Pesa transaction receipt from callback'
+    )
+    is_paid = models.BooleanField(_('payment received'), default=False)
 
     class Meta:
         verbose_name = _('Order')
