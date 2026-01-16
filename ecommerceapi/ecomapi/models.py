@@ -93,6 +93,12 @@ class Order(TimestampedModel):
         help_text='M-Pesa transaction receipt from callback'
     )
     is_paid = models.BooleanField(_('payment received'), default=False)
+    paid_at = models.DateTimeField(
+        _('payment confirmed at'),
+        null=True,
+        blank=True,
+        help_text='Timestamp when payment was confirmed via M-Pesa callback'
+    )
 
     class Meta:
         verbose_name = _('Order')

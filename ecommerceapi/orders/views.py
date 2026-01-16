@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -67,14 +68,24 @@ class MpesaCallbackView(APIView):
             
             # 5. Check if Success
             if result_code == 0:
+                # Idempotency Check: Only process if not already paid
+                if order.is_paid:
+                    print(f"⚠️ Duplicate callback for Order {order.id} - Already marked as PAID. Ignoring.")
+                    return Response({"status": "already_processed"})
+                
+                # Mark as paid (first time) and record timestamp
                 order.is_paid = True
+                order.paid_at = timezone.now()
                 order.save()
-                print(f"Order {order.id} marked as PAID!")
+                print(f"✅ Order {order.id} marked as PAID at {order.paid_at}!")
+                
+                # TODO: Send confirmation email, update inventory, etc.
+                
             else:
-                print(f"Payment failed for Order {order.id}. Reason: {stk_callback.get('ResultDesc')}")
+                print(f"❌ Payment failed for Order {order.id}. Reason: {stk_callback.get('ResultDesc')}")
                 
         except Order.DoesNotExist:
-            print("Order not found for this Checkout ID")
+            print("⚠️ Order not found for this Checkout ID")
 
         return Response({"status": "processed"})
 
