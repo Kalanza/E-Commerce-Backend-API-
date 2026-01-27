@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .mpesa import MpesaClient
 from ecomapi.models import Order
+from .tasks import send_payment_success_email
 import json
 
 
@@ -79,7 +80,11 @@ class MpesaCallbackView(APIView):
                 order.save()
                 print(f"✅ Order {order.id} marked as PAID at {order.paid_at}!")
                 
-                # TODO: Send confirmation email, update inventory, etc.
+                # --- NEW WAY (Asynchronous) ---
+                # We use .delay() to tell Celery: "Do this when you have time."
+                # The server responds to Safaricom IMMEDIATELY, without waiting for the email.
+                print(f"Order {order.id} paid. Triggering Celery task...")
+                send_payment_success_email.delay(order.id)
                 
             else:
                 print(f"❌ Payment failed for Order {order.id}. Reason: {stk_callback.get('ResultDesc')}")
